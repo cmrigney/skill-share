@@ -13,6 +13,8 @@ skill-share pull crigneydocker/skill-slack-gif-creator
 # Auto-extracts to ~/.claude/skills/slack-gif-creator
 ```
 
+Now when you run `claude`, this skill will be available!
+
 ## What are Claude Skills?
 
 Claude Agent Skills are modular capabilities that extend Claude's functionality. Each skill is a directory containing:
@@ -28,7 +30,7 @@ Learn more: [Claude Agent Skills Documentation](https://platform.claude.com/docs
 go install github.com/cmrigney/skill-share@latest
 
 # Or from the source repo (requires Task)
-task install  # Outputs to bin/skill-share
+task install
 ```
 
 ## Usage

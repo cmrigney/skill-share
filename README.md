@@ -8,10 +8,9 @@ Package and share Claude Agent Skills as OCI artifacts.
 # Install
 go install github.com/cmrigney/skill-share@latest
 
-# Try with the example skill (no auth required)
-skill-share push example-skill ttl.sh/my-skill:1h
-skill-share pull ttl.sh/my-skill:1h
-# Auto-extracts to ~/.claude/skills/my-skill
+# Pull a sample skill
+skill-share pull crigneydocker/skill-slack-gif-creator
+# Auto-extracts to ~/.claude/skills/slack-gif-creator
 ```
 
 ## What are Claude Skills?
@@ -28,19 +27,14 @@ Learn more: [Claude Agent Skills Documentation](https://platform.claude.com/docs
 # Install from source
 go install github.com/cmrigney/skill-share@latest
 
-# Or build locally
-git clone https://github.com/cmrigney/skill-share
-cd skill-share
-go build -o bin/skill-share .
-
-# For developers: use Task for building
-go install github.com/go-task/task/v3/cmd/task@latest
-task build  # Outputs to bin/skill-share
+# Or from the source repo (requires Task)
+task install  # Outputs to bin/skill-share
 ```
 
 ## Usage
 
 ### Push a Skill
+You can share your skills with your team easily! You first need to push a skill.
 
 ```bash
 skill-share push [skill-path] [registry/repository:tag]
@@ -48,17 +42,15 @@ skill-share push [skill-path] [registry/repository:tag]
 
 **Examples:**
 ```bash
-# Push to GitHub Container Registry
-skill-share push ./my-skill ghcr.io/username/my-skill:latest
+# Push a personal skill to Docker Hub
+skill-share push ~/.claude/skills/slack-gif-creator username/slack-gif-creator
 
-# Push to Docker Hub
-skill-share push ./my-skill docker.io/username/my-skill:v1.0.0
-
-# Push to ttl.sh (temporary, no auth)
-skill-share push ./my-skill ttl.sh/my-skill:1h
+# Push a project skill
+skill-share push ./skills/my-skill username/my-skill
 ```
 
 ### Pull a Skill
+Once someone has pushed a skill, others can pull it.
 
 ```bash
 skill-share pull [registry/repository:tag] [destination-path]
@@ -69,10 +61,33 @@ skill-share pull [registry/repository:tag] [destination-path]
 **Examples:**
 ```bash
 # Pull to default location (~/.claude/skills/my-skill)
-skill-share pull ghcr.io/username/my-skill:latest
+skill-share pull username/slack-gif-creator
 
 # Pull to custom location
-skill-share pull ghcr.io/username/my-skill:latest ./custom-path
+skill-share pull username/slack-gif-creator ./skills/slack-gif-creator
+```
+
+## Sample Skills
+
+**Updated as of 12-19-2025:** [Anthropic's skills](https://github.com/anthropics/skills/tree/main) can be pulled from `crigneydocker/skill-<skill-name>`
+
+```
+skill-share pull crigneydocker/skill-algorithmic-art
+skill-share pull crigneydocker/skill-brand-guidelines
+skill-share pull crigneydocker/skill-canvas-design
+skill-share pull crigneydocker/skill-doc-coauthoring
+skill-share pull crigneydocker/skill-docx
+skill-share pull crigneydocker/skill-frontend-design
+skill-share pull crigneydocker/skill-internal-comms
+skill-share pull crigneydocker/skill-mcp-builder
+skill-share pull crigneydocker/skill-pdf
+skill-share pull crigneydocker/skill-pptx
+skill-share pull crigneydocker/skill-skill-creator
+skill-share pull crigneydocker/skill-slack-gif-creator
+skill-share pull crigneydocker/skill-theme-factory
+skill-share pull crigneydocker/skill-web-artifacts-builder
+skill-share pull crigneydocker/skill-webapp-testing
+skill-share pull crigneydocker/skill-xlsx
 ```
 
 ## Development
@@ -83,16 +98,8 @@ This project uses [Task](https://taskfile.dev) for build automation.
 ```bash
 task build    # Build the binary
 task install  # Install to GOPATH/bin
-task test     # Run tests
 task clean    # Remove built binaries
-task fmt      # Format code
-task lint     # Run linters
 task tidy     # Tidy Go modules
-```
-
-**Install Task:**
-```bash
-go install github.com/go-task/task/v3/cmd/task@latest
 ```
 
 ## Learn More
